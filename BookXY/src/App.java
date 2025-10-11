@@ -20,16 +20,16 @@ public class App {
         
         switch (line) {
             case 1:
-                Items.addItems(input);
+                Inventory.addItems(input);
                 break;
             case 2:
-                Items.listItems();
+                Inventory.listItems();
                 break;
             case 3:
-                Items.deleteItems(input);
+                Inventory.findByBarcode(input);
                 break;
             case 4:
-                System.out.println("Saving items and exiting.");
+                RegisterMachine.addSale(null);
                 return;
             default:
                 break;

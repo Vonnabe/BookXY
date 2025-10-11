@@ -2,55 +2,52 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class RegisterMachine {
-    private double totalAmount;
-    private double cashReceived;
-    private String item;
-    private int quantity;
-    private double price;
-    private int machineSN;
-    
-    public RegisterMachine(double totalAmount, double cashReceived, String item, int quantity, double price) {
-        this.totalAmount = totalAmount;
-        this.cashReceived = cashReceived;
-        this.item = item;
-        this.quantity = quantity;
-        this.price = price;
+
+    private double balance;
+
+    static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    private Inventory inventory;
+
+    public RegisterMachine(double balance) {
+        this.balance = balance;
     }
 
-    public double getTotalAmount() {
-        return totalAmount;
+    public double getBalance() {
+        return balance;
     }
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
-    public double getCashReceived() {
-        return cashReceived;
+
+    public static void addSale(Transaction t) {
+        System.out.println("Sale");
+        System.out.print("Enter barcode name: ");
+        Scanner sc = new Scanner(System.in);
+        String itemname = sc.nextLine();
+        for (Items item : Inventory.items) {
+            if (item.getItemname().equals(itemname)) {
+                System.out.print("Enter quantity: ");
+                int quantity = sc.nextInt();
+                if (quantity > item.getQuantity()) {
+                    System.out.println("Not enough items in stock.");
+                    return;
+                }
+                double total = item.getPrice() * quantity;
+                System.out.println("Total price: " + total);
+                item.setQuantity(item.getQuantity() - quantity);
+                Transaction newTransaction = new Transaction(item, null, quantity, total, false);
+                transactions.add(newTransaction);
+                return;
+            }
+        }
+
     }
-    public void setCashReceived(double cashReceived) {
-        this.cashReceived = cashReceived;
-    }
-    public String getItem() {
-        return item;
-    }
-    public void setItem(String item) {
-        this.item = item;
-    }
-    public int getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-    public double getPrice() {
-        return price;
-    }
-    public void setPrice(double price) {
-        this.price = price;
-    }
-    public int getMachineSN() {
-        return machineSN;
-    }
-    public void setMachineSN(int machineSN) {
-        this.machineSN = machineSN;
+
+    public static void addPurchase(Transaction t) {
+        System.out.println("Purchase");
+        System.out.print("Enter item name: ");
+        double total = t.getTotalprice();
+        System.out.println("Total price: " + total);
     }
 }
