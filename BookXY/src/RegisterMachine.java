@@ -9,7 +9,7 @@ public class RegisterMachine {
     private Inventory inventory;
 
     public RegisterMachine(double balance) {
-        this.balance = balance;
+        this.balance = 2000.00;
     }
 
     public double getBalance() {
@@ -42,6 +42,25 @@ public class RegisterMachine {
             }
         }
 
+    }
+
+    public static void addPurchase(double balance) {
+        System.out.println("Purchase");
+        System.out.print("Enter item name: ");
+        Scanner sc = new Scanner(System.in);
+        String itemname = sc.nextLine();
+        for(Items item : Inventory.items){
+            if(item.getItemname().equals(itemname)){
+                System.out.println("Enter Quantity: ");
+                int quantity = sc.nextInt();
+                double total = balance - (item.getPrice() * quantity);
+                System.out.println("Total Balance: " + total);
+                item.setQuantity(item.getQuantity() + quantity);
+                Transaction newTransaction = new Transaction(item, null, quantity, total, false);
+                transactions.add(newTransaction);
+                return;
+            }
+        }
     }
 
     public static void addPurchase(Transaction t) {

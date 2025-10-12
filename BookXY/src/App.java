@@ -30,7 +30,10 @@ public class App {
                 break;
             case 4:
                 RegisterMachine.addSale(null);
-                return;
+                break;
+            case 5:
+                RegisterMachine.addPurchase(2000.00);
+                break;
             default:
                 break;
         }
