@@ -3,19 +3,22 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws Exception {
 
+        Scanner input = new Scanner(System.in);
 
         while (true){ 
         System.out.println("Welcome to BookXY App!");
-        System.out.println("#######################");
+        System.out.println("*******************************");
         System.out.println("MENU: ");
         System.out.println("-------------------------------");
         System.out.println("1. Add Book");
-        System.out.println("2. View Books");
-        System.out.println("3. Remove Book");
-        System.out.println("4. Exit");
+        System.out.println("2. View Info");
+        System.out.println("3. Find Book by Barcode");
+        System.out.println("4. Make Sale");
+        System.out.println("5. Make Purchase");
+        System.out.println("6. Exit");
         System.out.println("!-------------------------------!");
 
-        Scanner input = new Scanner(System.in);
+
         int line= input.nextInt();
         
         switch (line) {
@@ -24,6 +27,7 @@ public class App {
                 break;
             case 2:
                 Inventory.listItems();
+                System.out.println("Register Balance: " + RegisterMachine.transactions);
                 break;
             case 3:
                 Inventory.findByBarcode(input);
@@ -32,8 +36,11 @@ public class App {
                 RegisterMachine.addSale(null);
                 break;
             case 5:
-                RegisterMachine.addPurchase(2000.00);
+                RegisterMachine.addPurchase(null);
                 break;
+            case 6:
+                System.out.println("Exiting the application. Goodbye!");
+                System.exit(0);
             default:
                 break;
         }

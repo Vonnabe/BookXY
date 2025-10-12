@@ -6,7 +6,6 @@ public class RegisterMachine {
     private double balance;
 
     static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-    private Inventory inventory;
 
     public RegisterMachine(double balance) {
         this.balance = 2000.00;
@@ -44,7 +43,8 @@ public class RegisterMachine {
 
     }
 
-    public static void addPurchase(double balance) {
+    public static void addPurchase(Transaction t) {
+        RegisterMachine register = new RegisterMachine(2000.00);
         System.out.println("Purchase");
         System.out.print("Enter item name: ");
         Scanner sc = new Scanner(System.in);
@@ -53,7 +53,7 @@ public class RegisterMachine {
             if(item.getItemname().equals(itemname)){
                 System.out.println("Enter Quantity: ");
                 int quantity = sc.nextInt();
-                double total = balance - (item.getPrice() * quantity);
+                double total = register.getBalance() - (item.getPrice() * quantity);
                 System.out.println("Total Balance: " + total);
                 item.setQuantity(item.getQuantity() + quantity);
                 Transaction newTransaction = new Transaction(item, null, quantity, total, false);
@@ -63,10 +63,4 @@ public class RegisterMachine {
         }
     }
 
-    public static void addPurchase(Transaction t) {
-        System.out.println("Purchase");
-        System.out.print("Enter item name: ");
-        double total = t.getTotalprice();
-        System.out.println("Total price: " + total);
-    }
 }
