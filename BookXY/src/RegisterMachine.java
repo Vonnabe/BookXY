@@ -3,15 +3,15 @@ import java.util.ArrayList;
 
 public class RegisterMachine {
 
-    private double balance;
+    private static double balance;
 
     static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
     public RegisterMachine(double balance) {
-        this.balance = 2000.00;
+        this.balance = balance;
     }
 
-    public double getBalance() {
+    public static double getBalance() {
         return balance;
     }
 
@@ -21,7 +21,7 @@ public class RegisterMachine {
 
     public static void addSale(Transaction t) {
         System.out.println("Sale");
-        System.out.print("Enter barcode name: ");
+        System.out.print("Enter Item name: ");
         Scanner sc = new Scanner(System.in);
         String itemname = sc.nextLine();
         for (Items item : Inventory.items) {
@@ -34,7 +34,10 @@ public class RegisterMachine {
                 }
                 double total = item.getPrice() * quantity;
                 System.out.println("Total price: " + total);
+                //double finalbalance = RegisterMachine.getBalance() + total;
                 item.setQuantity(item.getQuantity() - quantity);
+                balance = RegisterMachine.getBalance() + total;
+                System.out.println("Total Balance: " + balance);
                 Transaction newTransaction = new Transaction(item, null, quantity, total, false);
                 transactions.add(newTransaction);
                 return;
@@ -44,7 +47,6 @@ public class RegisterMachine {
     }
 
     public static void addPurchase(Transaction t) {
-        RegisterMachine register = new RegisterMachine(2000.00);
         System.out.println("Purchase");
         System.out.print("Enter item name: ");
         Scanner sc = new Scanner(System.in);
@@ -53,7 +55,7 @@ public class RegisterMachine {
             if(item.getItemname().equals(itemname)){
                 System.out.println("Enter Quantity: ");
                 int quantity = sc.nextInt();
-                double total = register.getBalance() - (item.getPrice() * quantity);
+                double total = RegisterMachine.getBalance() - (item.getPrice() * quantity);
                 System.out.println("Total Balance: " + total);
                 item.setQuantity(item.getQuantity() + quantity);
                 Transaction newTransaction = new Transaction(item, null, quantity, total, false);

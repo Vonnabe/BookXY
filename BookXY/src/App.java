@@ -4,6 +4,8 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         Scanner input = new Scanner(System.in);
+        RegisterMachine register = new RegisterMachine(input.nextDouble());
+        System.out.println(register.getBalance());
 
         while (true){ 
         System.out.println("Welcome to BookXY App!");
@@ -27,7 +29,7 @@ public class App {
                 break;
             case 2:
                 Inventory.listItems();
-                System.out.println("Register Balance: " + RegisterMachine.transactions);
+                System.out.println("Register Balance: " + register.getBalance());
                 break;
             case 3:
                 Inventory.findByBarcode(input);

@@ -3,6 +3,7 @@ import java.beans.Customizer;
 import java.util.ArrayList;
 
 public class Transaction {
+    
     private Items item;
     private Costumer costumer;
 
