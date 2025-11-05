@@ -18,6 +18,9 @@ public class App {
         System.out.println("4. Make Sale");
         System.out.println("5. Make Purchase");
         System.out.println("6. Exit");
+        System.out.println("7. Add Costumer Card");
+        System.out.println("8. View Costumer Cards");
+        System.out.println("9. Make Costumer Order");
         System.out.println("!-------------------------------!");
 
 
@@ -29,7 +32,7 @@ public class App {
                 break;
             case 2:
                 Inventory.listItems();
-                System.out.println("Register Balance: " + register.getBalance());
+                System.out.println("Register Balance: " + RegisterMachine.getBalance());
                 break;
             case 3:
                 Inventory.findByBarcode(input);
@@ -43,6 +46,13 @@ public class App {
             case 6:
                 System.out.println("Exiting the application. Goodbye!");
                 System.exit(0);
+                break;
+            case 7:
+                RegisterMachine.addCustomer(null);
+                break;
+            case 8:
+                RegisterMachine.listCustomers();
+                break;
             default:
                 break;
         }

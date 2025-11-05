@@ -59,4 +59,9 @@ public class Costumer {
         this.address = address;
     }
     
+    @Override
+    public String toString() {
+        return "Costumer [name=" + name + ", email=" + email + ", password=" + password + ", phonenumber=" + phonenumber
+                + ", address=" + address + "]";
+    }
 }
