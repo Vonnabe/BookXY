@@ -46,9 +46,11 @@ public class Transaction {
         @Override
     public String toString() {
         return "Transaction{" +
-                "itemname='" + quantity + '\'' +
-                ", year=" + isPurchase +
-                ", price=" + totalprice+ '\'' +
+                "item=" + item +
+                ", costumer=" + costumer +
+                ", quantity=" + quantity +
+                ", totalprice=" + getTotalprice() +
+                ", isPurchase=" + isPurchase +
                 '}';
     }
 }

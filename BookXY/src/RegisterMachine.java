@@ -4,13 +4,29 @@ import java.util.ArrayList;
 public class RegisterMachine {
 
     private static double balance;
+    private static double aFpa;
+    private static double bFpa;
+    private static double cFpa;
+    private static double dFpa;
 
     static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     static ArrayList<Costumer> newCostumer = new ArrayList<Costumer>();
 
-    public RegisterMachine(double balance) {
+    public RegisterMachine(double balance, double aFpa, double bFpa, double cFpa, double dFpa) {
         this.balance = balance;
+        this.aFpa = aFpa;
+        this.bFpa = bFpa;
+        this.cFpa = cFpa;
+        this.dFpa = dFpa;
+
     }
+
+    //public RegisterMachine(double aFpa, double bFpa, double cFpa, double dFpa) {
+    //    this.aFpa = aFpa;
+    //    this.bFpa = bFpa;
+    //    this.cFpa = cFpa;
+    //    this.dFpa = dFpa;
+    //}
 
     public static double getBalance() {
         return balance;
@@ -18,6 +34,38 @@ public class RegisterMachine {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public static double getaFpa() {
+        return aFpa;
+    }
+
+    public void setaFpa(double aFpa) {
+        this.aFpa = aFpa;
+    }
+
+    public static double getbFpa() {
+        return bFpa;
+    }
+
+    public void setbFpa(double bFpa) {
+        this.bFpa = bFpa;
+    }
+
+    public static double getcFpa() {
+        return cFpa;
+    }
+
+    public void setcFpa(double cFpa) {
+        this.cFpa = cFpa;
+    }
+
+    public static double getdFpa() {
+        return dFpa;
+    }
+
+    public void setdFpa(double dFpa) {
+        this.dFpa = dFpa;
     }
 
     public static void addSale(Transaction t) {
@@ -33,9 +81,9 @@ public class RegisterMachine {
                     System.out.println("Not enough items in stock.");
                     return;
                 }
-                double total = item.getPrice() * quantity;
+                double total = (item.getPrice()*cFpa )* quantity;
                 System.out.println("Total price: " + total);
-                //double finalbalance = RegisterMachine.getBalance() + total;
+                // double finalbalance = RegisterMachine.getBalance() + total;
                 item.setQuantity(item.getQuantity() - quantity);
                 balance = RegisterMachine.getBalance() + total;
                 System.out.println("Total Balance: " + balance);
@@ -52,8 +100,8 @@ public class RegisterMachine {
         System.out.print("Enter item name: ");
         Scanner sc = new Scanner(System.in);
         String itemname = sc.nextLine();
-        for(Items item : Inventory.items){
-            if(item.getItemname().equals(itemname) == false || Inventory.items.isEmpty()){ 
+        for (Items item : Inventory.items) {
+            if (item.getItemname().equals(itemname) == false || Inventory.items.isEmpty()) {
                 System.out.println("Item not found in inventory, Would you Like to Add new Item? (Y/N)?");
                 String response = sc.nextLine();
                 if (response.equalsIgnoreCase("Y")) {
@@ -62,7 +110,7 @@ public class RegisterMachine {
                 } else {
                     return;
                 }
-            }else if(item.getItemname().equals(itemname)){
+            } else if (item.getItemname().equals(itemname)) {
                 System.out.println("Enter Quantity: ");
                 int quantity = sc.nextInt();
                 double total = RegisterMachine.getBalance() - (item.getPrice() * quantity);
@@ -95,7 +143,7 @@ public class RegisterMachine {
     }
 
     public static void listCustomers() {
-            if (Costumer.costumers.isEmpty()) {
+        if (Costumer.costumers.isEmpty()) {
             System.out.println("*No Costumer Listed available.*");
             return;
         }
@@ -104,5 +152,56 @@ public class RegisterMachine {
             System.out.println(customer);
         }
     }
+
+    public static void btbsale(Transaction t) {
+        System.out.println("Sale");
+        System.out.print("Enter Customer Password: ");
+        Scanner sc = new Scanner(System.in);
+        String password = sc.nextLine();
+        for (Costumer customer : Costumer.costumers) {
+            if (customer.getPassword().equals(password)) {
+                System.out.println("Customer Found: " + customer.getName());
+                System.out.print("Enter Item Barcode: ");
+                String itembarcode = sc.nextLine();
+                for (Items item : Inventory.items) {
+                    if (item.getBarcode().equals(itembarcode)) {
+                        System.out.print("Enter quantity: ");
+                        int quantity = sc.nextInt();
+                        if (quantity > item.getQuantity()) {
+                            System.out.println("Not enough items in stock.");
+                            return;
+                        }
+                        double total = item.getPrice() * quantity;
+                        System.out.println("Total price: " + total);
+                        // double finalbalance = RegisterMachine.getBalance() + total;
+                        item.setQuantity(item.getQuantity() - quantity);
+                        balance = RegisterMachine.getBalance() + total;
+                        System.out.println("Total Balance: " + balance);
+                        Transaction newTransaction = new Transaction(item, customer, quantity, total, false);
+                        transactions.add(newTransaction);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void taxModificationSettings(Scanner sc, RegisterMachine register) {
+        System.out.print("Enter Fpa A rate(%): ");
+        double newAFpa = sc.nextDouble();
+        register.setaFpa(newAFpa);
+        System.out.print("Enter Fpa B rate(%): ");
+        double newBFpa = sc.nextDouble();
+        register.setbFpa(newBFpa);
+        System.out.print("Enter Fpa C rate(%): ");
+        double newCFpa = sc.nextDouble();
+        register.setcFpa(newCFpa);
+        System.out.print("Enter Fpa D rate(%): ");
+        double newDFpa = sc.nextDouble();
+        register.setdFpa(newDFpa);
+        System.out.println("Tax rates updated successfully!");
+    }
+
+
 
 }

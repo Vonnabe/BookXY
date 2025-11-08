@@ -4,7 +4,7 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         Scanner input = new Scanner(System.in);
-        RegisterMachine register = new RegisterMachine(input.nextDouble());
+        RegisterMachine register = new RegisterMachine(input.nextDouble(), 0.0, 0.0, 0.0, 0.0);
         System.out.println(register.getBalance());
 
         while (true){ 
@@ -21,6 +21,7 @@ public class App {
         System.out.println("7. Add Costumer Card");
         System.out.println("8. View Costumer Cards");
         System.out.println("9. Make Costumer Order");
+        System.out.println("10. Settings");
         System.out.println("!-------------------------------!");
 
 
@@ -53,9 +54,35 @@ public class App {
             case 8:
                 RegisterMachine.listCustomers();
                 break;
+            case 10:
+                System.out.println("---SETTINGS---");
+                System.out.println("---------------");
+                System.out.println("1. Modify Tax Rate ");
+                System.out.println("2. Exit Settings ");
+                System.out.println("3. View Tax Rates ");
+                int settingLine = input.nextInt();
+                switch (settingLine) {
+                    case 1:
+                        RegisterMachine.taxModificationSettings(input, register);
+                        break;
+                    case 2:
+                        System.out.println("Exiting Settings.");
+                        break;
+                    case 3:
+                        System.out.println("Printing tax ratings.");
+                        System.out.println("------------------------");
+                        System.out.println("A FPA: " + RegisterMachine.getaFpa());
+                        System.out.println("B FPA: " + RegisterMachine.getbFpa());
+                        System.out.println("C FPA: " + RegisterMachine.getcFpa());
+                        System.out.println("D FPA: " + RegisterMachine.getdFpa());
+                        break;
+                    default:
+                        System.out.println("Invalid option in Settings.");
+                break;
+            }
             default:
                 break;
-        }
+            }
         }
     }
 }
