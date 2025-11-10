@@ -46,7 +46,18 @@ public class Inventory {
             return;
         }
 
-        Items newItem = new Items(itemname, year, price, quantity, barcode, branditem);
+        System.out.print("Enter item tax category: (a, b, c, d)");
+        String taxCategory = sc.nextLine();
+        if(taxCategory.isEmpty()){
+            System.out.println("Tax category cannot be empty.");
+            return;
+        }
+        if(!taxCategory.equalsIgnoreCase("a") && !taxCategory.equalsIgnoreCase("b") && !taxCategory.equalsIgnoreCase("c") && !taxCategory.equalsIgnoreCase("d")){
+            System.out.println("Invalid tax category. Please enter a, b, c, or d.");
+            return;
+        }
+
+        Items newItem = new Items(itemname, year, price, quantity, barcode, branditem, taxCategory);
         items.add(newItem);
         System.out.println("Item added successfully.");
     }

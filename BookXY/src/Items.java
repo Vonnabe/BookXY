@@ -6,14 +6,16 @@ public class Items {
     private int quantity;
     private String barcode;
     private String branditem;
+    private String taxCategory;
 
-    public Items(String itemname, int year, double price, int quantity, String barcode, String branditem) {
+    public Items(String itemname, int year, double price, int quantity, String barcode, String branditem, String taxCategory) {
         this.itemname = itemname;
         this.year = year;
         this.price = price;
         this.quantity = quantity;
         this.barcode = barcode;
         this.branditem = branditem;
+        this.taxCategory = taxCategory;
     }
 
     public String getItemname() {
@@ -64,7 +66,15 @@ public class Items {
         this.branditem = branditem;
     }
 
-        @Override
+    public String getTaxCategory() {
+        return taxCategory;
+    }
+
+    public void setTaxCategory(String taxCategory) {
+        this.taxCategory = taxCategory;
+    }
+
+    @Override
     public String toString() {
         return "Items{" +
                 "itemname='" + itemname + '\'' +
@@ -73,6 +83,7 @@ public class Items {
                 ", quantity=" + quantity +
                 ", barcode='" + barcode + '\'' +
                 ", branditem='" + branditem + '\'' +
+                ", taxCategory='" + taxCategory + '\'' +
                 '}';
     }
 

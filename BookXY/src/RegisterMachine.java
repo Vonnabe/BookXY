@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class RegisterMachine {
 
     private static double balance;
+    private static double eftpos;
     private static double aFpa;
     private static double bFpa;
     private static double cFpa;
@@ -12,13 +13,13 @@ public class RegisterMachine {
     static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     static ArrayList<Costumer> newCostumer = new ArrayList<Costumer>();
 
-    public RegisterMachine(double balance, double aFpa, double bFpa, double cFpa, double dFpa) {
+    public RegisterMachine(double balance, double eftpos ,double aFpa, double bFpa, double cFpa, double dFpa) {
         this.balance = balance;
+        this.eftpos = eftpos;
         this.aFpa = aFpa;
         this.bFpa = bFpa;
         this.cFpa = cFpa;
         this.dFpa = dFpa;
-
     }
 
     //public RegisterMachine(double aFpa, double bFpa, double cFpa, double dFpa) {
@@ -34,6 +35,14 @@ public class RegisterMachine {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public static double getEftpos() {
+        return eftpos;
+    }
+
+    public void setEftpos(double eftpos) {
+        this.eftpos = eftpos;
     }
 
     public static double getaFpa() {
@@ -73,6 +82,7 @@ public class RegisterMachine {
         System.out.print("Enter Item Barcode: ");
         Scanner sc = new Scanner(System.in);
         String itembarcode = sc.nextLine();
+        double itemTaxation;
         for (Items item : Inventory.items) {
             if (item.getBarcode().equals(itembarcode)) {
                 System.out.print("Enter quantity: ");
@@ -81,12 +91,39 @@ public class RegisterMachine {
                     System.out.println("Not enough items in stock.");
                     return;
                 }
-                double total = (item.getPrice()*cFpa )* quantity;
+                if (item.getTaxCategory().equalsIgnoreCase("a")) {
+                    itemTaxation = getaFpa();
+                } else if (item.getTaxCategory().equalsIgnoreCase("b")) {
+                    itemTaxation = getbFpa();
+                } else if (item.getTaxCategory().equalsIgnoreCase("c")) {
+                    itemTaxation = getcFpa();
+                } else if (item.getTaxCategory().equalsIgnoreCase("d")) {
+                    itemTaxation = getdFpa();
+                } else {
+                    System.out.println("---WARNING---");
+                    System.out.println("Item does not have a tax, setting to 0%.");
+                    return;
+                }
+                double total = (item.getPrice()*itemTaxation )* quantity;
                 System.out.println("Total price: " + total);
                 // double finalbalance = RegisterMachine.getBalance() + total;
                 item.setQuantity(item.getQuantity() - quantity);
-                balance = RegisterMachine.getBalance() + total;
+                System.out.println("Select Payment Method: 1.Cash / 2.EftPOS");
+                boolean openReceipt = true;
+                while (openReceipt) {
+                    int paymentMethod = sc.nextInt();
+                    if (paymentMethod == 2) {
+                        eftpos = RegisterMachine.getEftpos() + total;
+                        openReceipt = false;
+                    }else if (paymentMethod == 1){
+                        balance = RegisterMachine.getBalance() + total;
+                        openReceipt = false;
+                    }else {
+                        System.out.println("Invalid Payment Method. Please select 1 for Cash or 2 for EftPOS."); 
+                    }
+                }
                 System.out.println("Total Balance: " + balance);
+                System.out.println("EftPOS Balance: " + eftpos);
                 Transaction newTransaction = new Transaction(item, null, quantity, total, false);
                 transactions.add(newTransaction);
                 return;
