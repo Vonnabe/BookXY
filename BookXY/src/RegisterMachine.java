@@ -81,6 +81,15 @@ public class RegisterMachine {
         boolean openReceipt = true;
         while (openReceipt) {
             //make a method to close receipt
+            System.out.println("###TEST###");
+            System.out.println("###TEST###");
+            System.out.println("###TEST###");
+            System.out.println("###TEST###");
+            System.out.println("###TEST###");
+            System.out.println("###TEST###");
+            System.out.println("###TEST###");
+            System.out.println("###TEST###");
+
         }
         System.out.println("Product Sale");
         System.out.print("Enter Item Barcode: ");
