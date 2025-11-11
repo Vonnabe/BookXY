@@ -78,7 +78,11 @@ public class RegisterMachine {
     }
 
     public static void addSale(Transaction t) {
-        System.out.println("Sale");
+        boolean openReceipt = true;
+        while (openReceipt) {
+            //make a method to close receipt
+        }
+        System.out.println("Product Sale");
         System.out.print("Enter Item Barcode: ");
         Scanner sc = new Scanner(System.in);
         String itembarcode = sc.nextLine();
@@ -109,26 +113,30 @@ public class RegisterMachine {
                 // double finalbalance = RegisterMachine.getBalance() + total;
                 item.setQuantity(item.getQuantity() - quantity);
                 System.out.println("Select Payment Method: 1.Cash / 2.EftPOS");
-                boolean openReceipt = true;
-                while (openReceipt) {
+                boolean receiptPaymentMethod = true;
+                while (receiptPaymentMethod) {
                     int paymentMethod = sc.nextInt();
                     if (paymentMethod == 2) {
                         eftpos = RegisterMachine.getEftpos() + total;
-                        openReceipt = false;
+                        receiptPaymentMethod = false;
                     }else if (paymentMethod == 1){
                         balance = RegisterMachine.getBalance() + total;
-                        openReceipt = false;
+                        receiptPaymentMethod = false;
                     }else {
                         System.out.println("Invalid Payment Method. Please select 1 for Cash or 2 for EftPOS."); 
                     }
                 }
                 System.out.println("Total Balance: " + balance);
                 System.out.println("EftPOS Balance: " + eftpos);
+                //fix the while loop for openReceipt
+            
                 Transaction newTransaction = new Transaction(item, null, quantity, total, false);
                 transactions.add(newTransaction);
                 return;
             }
+            
         }
+        
 
     }
 
