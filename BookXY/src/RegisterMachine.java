@@ -261,7 +261,11 @@ public class RegisterMachine {
         System.out.println("Tax rates updated successfully!");
     }
 
+    //---WORK IN PROGRESS---//
+
     public static void customOrderProcess(Scanner sc){
+
+        //Still work in progress
         sc.nextLine();
         System.out.println("---CUSTOMER ORDER---");
         System.out.println("Type Customer id: ");
