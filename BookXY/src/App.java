@@ -17,7 +17,7 @@ public class App {
         System.out.println("3. Find Book by Barcode");
         System.out.println("4. Make Sale");
         System.out.println("5. Make Purchase");
-        System.out.println("6. Exit");
+        System.out.println("6. Exit Register Machine");
         System.out.println("7. Add Costumer Card");
         System.out.println("8. View Costumer Cards");
         System.out.println("9. Make Costumer Order");
