@@ -54,6 +54,9 @@ public class App {
             case 8:
                 RegisterMachine.listCustomers();
                 break;
+            case 9:
+                RegisterMachine.customOrderProcess(input);
+                break;
             case 10:
                 System.out.println("---SETTINGS---");
                 System.out.println("---------------");

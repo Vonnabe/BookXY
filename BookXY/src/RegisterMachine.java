@@ -261,4 +261,19 @@ public class RegisterMachine {
         System.out.println("Tax rates updated successfully!");
     }
 
+    public static void customOrderProcess(Scanner sc){
+        sc.nextLine();
+        System.out.println("---CUSTOMER ORDER---");
+        System.out.println("Type Customer id: ");
+        String customerId = sc.nextLine();
+        for (Costumer costumer : Costumer.costumers){
+            if (!costumer.getPassword().equals(customerId)){
+                System.out.println("Customer Does not exist.");
+            }else{
+                System.out.println("Costumer : " + costumer.getName() + " with ID: " + customerId);
+                addSale(null);
+            }
+        }
+    }
+
 }
