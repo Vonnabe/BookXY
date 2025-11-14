@@ -22,13 +22,6 @@ public class RegisterMachine {
         this.dFpa = dFpa;
     }
 
-    // public RegisterMachine(double aFpa, double bFpa, double cFpa, double dFpa) {
-    // this.aFpa = aFpa;
-    // this.bFpa = bFpa;
-    // this.cFpa = cFpa;
-    // this.dFpa = dFpa;
-    // }
-
     public static double getBalance() {
         return balance;
     }
@@ -79,7 +72,7 @@ public class RegisterMachine {
 
     public static void addSale(Transaction t) {
         boolean openReceipt = true;
-        double count=0;
+        double count = 0;
         while (openReceipt) {
 
             System.out.println("---Product Sale---");
@@ -111,16 +104,16 @@ public class RegisterMachine {
                         return;
                     }
                     double total = (item.getPrice() * itemTaxation) * quantity;
-                    total+=count;
+                    total += count;
                     System.out.println("Total price: " + total);
                     // double finalbalance = RegisterMachine.getBalance() + total;
                     item.setQuantity(item.getQuantity() - quantity);
                     sc.nextLine();
                     System.out.println("Would you like to add another item to the sale? (Y/N)");
                     String closeReceiptcheck = sc.nextLine();
-                    
+
                     if (closeReceiptcheck.equalsIgnoreCase("y")) {
-                        count+=total;
+                        count += total;
                         Transaction newTransaction = new Transaction(item, null, quantity, total, false);
                         transactions.add(newTransaction);
                         openReceipt = true;
@@ -148,6 +141,7 @@ public class RegisterMachine {
                     System.out.println("EftPOS Balance: " + eftpos);
                     Transaction newTransaction = new Transaction(item, null, quantity, total, false);
                     transactions.add(newTransaction);
+                    System.out.println("Transaction made: " + newTransaction);
                 }
             }
         }
@@ -210,7 +204,11 @@ public class RegisterMachine {
         for (Costumer customer : Costumer.costumers) {
             System.out.println(customer);
         }
+
+
     }
+                // ---WORK IN PROGRESS---//
+
 
     public static void btbsale(Transaction t) {
         System.out.println("Sale");
@@ -261,22 +259,17 @@ public class RegisterMachine {
         System.out.println("Tax rates updated successfully!");
     }
 
-    //---WORK IN PROGRESS---//
-
-    public static void customOrderProcess(Scanner sc){
-
-        //Still work in progress
-        sc.nextLine();
-        System.out.println("---CUSTOMER ORDER---");
-        System.out.println("Type Customer id: ");
-        String customerId = sc.nextLine();
-        for (Costumer costumer : Costumer.costumers){
-            if (!costumer.getPassword().equals(customerId)){
-                System.out.println("Customer Does not exist.");
-            }else{
-                System.out.println("Costumer : " + costumer.getName() + " with ID: " + customerId);
-                addSale(null);
-            }
+    
+        // ---WORK IN PROGRESS---//
+    
+    public static void listTransactions() {
+        if (transactions.isEmpty()) {
+            System.out.println("*No Transactions on record.*");
+            return;
+        }
+        System.out.println("Transaction History:");
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction);
         }
     }
 

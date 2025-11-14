@@ -2,57 +2,60 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Inventory {
-    
-    static ArrayList<Items> items = new ArrayList<Items>();
 
-    public static void addItems(Scanner sc){
+    static ArrayList<Items> items = new ArrayList<Items>();
+    static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    static ArrayList<RegisterMachine> registerMachines = new ArrayList<RegisterMachine>();
+
+    public static void addItems(Scanner sc) {
         System.out.println("Adding items...");
         System.out.print("Enter item name: ");
         sc.nextLine();
         String itemname = sc.nextLine();
-        if(itemname.isEmpty()){
+        if (itemname.isEmpty()) {
             System.out.println("Item name cannot be empty.");
             return;
         }
         System.out.print("Enter item year: ");
         int year = sc.nextInt();
-        if(year < 0){
+        if (year < 0) {
             System.out.println("Year cannot be negative.");
             return;
         }
         System.out.print("Enter item price: ");
         double price = sc.nextDouble();
-        if(price < 0){
+        if (price < 0) {
             System.out.println("Price cannot be negative.");
             return;
         }
         System.out.print("Enter item quantity: ");
         int quantity = sc.nextInt();
-        if(quantity < 0){
+        if (quantity < 0) {
             System.out.println("Quantity cannot be negative.");
             return;
         }
-        sc.nextLine(); 
+        sc.nextLine();
         System.out.print("Enter item barcode: ");
         String barcode = sc.nextLine();
-        if(barcode.isEmpty()){
+        if (barcode.isEmpty()) {
             System.out.println("Barcode cannot be empty.");
             return;
         }
         System.out.print("Enter item brand: ");
         String branditem = sc.nextLine();
-        if(branditem.isEmpty()){
+        if (branditem.isEmpty()) {
             System.out.println("Brand cannot be empty.");
             return;
         }
 
         System.out.print("Enter item tax category: (a, b, c, d)");
         String taxCategory = sc.nextLine();
-        if(taxCategory.isEmpty()){
+        if (taxCategory.isEmpty()) {
             System.out.println("Tax category cannot be empty.");
             return;
         }
-        if(!taxCategory.equalsIgnoreCase("a") && !taxCategory.equalsIgnoreCase("b") && !taxCategory.equalsIgnoreCase("c") && !taxCategory.equalsIgnoreCase("d")){
+        if (!taxCategory.equalsIgnoreCase("a") && !taxCategory.equalsIgnoreCase("b")
+                && !taxCategory.equalsIgnoreCase("c") && !taxCategory.equalsIgnoreCase("d")) {
             System.out.println("Invalid tax category. Please enter a, b, c, or d.");
             return;
         }
@@ -69,7 +72,7 @@ public class Inventory {
         if (barcodeToDelete.isEmpty()) {
             System.out.println("Barcode cannot be empty.");
             return;
-            
+
         }
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getBarcode().equals(barcodeToDelete)) {
@@ -80,16 +83,16 @@ public class Inventory {
         }
     }
 
-    public static void findByBarcode(Scanner sc){
+    public static void findByBarcode(Scanner sc) {
         System.out.print("Enter the barcode to search: ");
         sc.nextLine();
         String barcodeToFind = sc.nextLine();
-        if(barcodeToFind.isEmpty()){
+        if (barcodeToFind.isEmpty()) {
             System.out.println("Barcode cannot be empty.");
             return;
         }
-        for(Items item : items){
-            if(item.getBarcode().equals(barcodeToFind)){
+        for (Items item : items) {
+            if (item.getBarcode().equals(barcodeToFind)) {
                 System.out.println("Item found: " + item);
                 return;
             }
