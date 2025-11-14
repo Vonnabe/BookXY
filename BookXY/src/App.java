@@ -8,6 +8,7 @@ public class App {
         System.out.println(register.getBalance());
 
         while (true){ 
+        System.out.println("Patch: 0.2.1");
         System.out.println("Welcome to BookXY App!");
         System.out.println("*******************************");
         System.out.println("MENU: ");
