@@ -12,6 +12,7 @@ public class App {
         System.out.println("*******************************");
         System.out.println("MENU: ");
         System.out.println("-------------------------------");
+        System.out.println("!-------------------------------!");
         System.out.println("1. Add Book");
         System.out.println("2. View Info");
         System.out.println("3. Find Book by Barcode");
@@ -23,6 +24,7 @@ public class App {
         System.out.println("9. Make Costumer Order");
         System.out.println("10. Settings");
         System.out.println("11. Transaction History");
+        System.out.println("!-------------------------------!");
         System.out.println("!-------------------------------!");
 
 
