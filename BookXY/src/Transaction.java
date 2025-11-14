@@ -62,9 +62,4 @@ public class Transaction {
                 '}';
     }
 
-    public static void listTransactions(RegisterMachine register) {
-        for (Transaction t : register.transactions) {
-            System.out.println(t);
-        }
-    }
 }

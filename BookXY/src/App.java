@@ -22,6 +22,7 @@ public class App {
         System.out.println("8. View Costumer Cards");
         System.out.println("9. Make Costumer Order");
         System.out.println("10. Settings");
+        System.out.println("11. Transaction History");
         System.out.println("!-------------------------------!");
 
 
@@ -39,7 +40,7 @@ public class App {
                 Inventory.findByBarcode(input);
                 break;
             case 4:
-                RegisterMachine.addSale(null, null);
+                RegisterMachine.addSale(null);
                 break;
             case 5:
                 RegisterMachine.addPurchase(null);
@@ -55,7 +56,7 @@ public class App {
                 RegisterMachine.listCustomers();
                 break;
             case 9:
-                RegisterMachine.customOrderProcess(input);
+                RegisterMachine.btbsale(null);
                 break;
             case 10:
                 System.out.println("---SETTINGS---");
@@ -84,8 +85,8 @@ public class App {
                 break;
             }
             case 11:
-                System.out.println("Listing all transactions:");
-                Transaction.listTransactions(register);
+                System.out.println("---Transaction List---");
+                RegisterMachine.listTransactions();
                 break;
             default:
                 break;
