@@ -3,7 +3,7 @@ import java.beans.Customizer;
 import java.util.ArrayList;
 
 public class Transaction {
-    
+
     private Items item;
     private Costumer costumer;
 
@@ -43,7 +43,15 @@ public class Transaction {
         this.isPurchase = isPurchase;
     }
 
-        @Override
+    public Costumer getCostumer() {
+        return costumer;
+    }
+
+    public void setCostumer(Costumer costumer) {
+        this.costumer = costumer;
+    }
+
+    @Override
     public String toString() {
         return "Transaction{" +
                 "item=" + item +
@@ -52,5 +60,11 @@ public class Transaction {
                 ", totalprice=" + getTotalprice() +
                 ", isPurchase=" + isPurchase +
                 '}';
+    }
+
+    public static void listTransactions(RegisterMachine register) {
+        for (Transaction t : register.transactions) {
+            System.out.println(t);
+        }
     }
 }

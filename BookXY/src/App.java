@@ -39,7 +39,7 @@ public class App {
                 Inventory.findByBarcode(input);
                 break;
             case 4:
-                RegisterMachine.addSale(null);
+                RegisterMachine.addSale(null, null);
                 break;
             case 5:
                 RegisterMachine.addPurchase(null);
@@ -83,6 +83,10 @@ public class App {
                         System.out.println("Invalid option in Settings.");
                 break;
             }
+            case 11:
+                System.out.println("Listing all transactions:");
+                Transaction.listTransactions(register);
+                break;
             default:
                 break;
             }

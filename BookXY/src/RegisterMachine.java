@@ -77,7 +77,7 @@ public class RegisterMachine {
         this.dFpa = dFpa;
     }
 
-    public static void addSale(Transaction t) {
+    public static void addSale(Transaction t, Costumer customer) {
         boolean openReceipt = true;
         double count=0;
         while (openReceipt) {
@@ -121,7 +121,7 @@ public class RegisterMachine {
                     
                     if (closeReceiptcheck.equalsIgnoreCase("y")) {
                         count+=total;
-                        Transaction newTransaction = new Transaction(item, null, quantity, total, false);
+                        Transaction newTransaction = new Transaction(item, customer, quantity, total, false);
                         transactions.add(newTransaction);
                         openReceipt = true;
                         break;
@@ -146,7 +146,7 @@ public class RegisterMachine {
 
                     System.out.println("Total Balance: " + balance);
                     System.out.println("EftPOS Balance: " + eftpos);
-                    Transaction newTransaction = new Transaction(item, null, quantity, total, false);
+                    Transaction newTransaction = new Transaction(item, customer, quantity, total, false);
                     transactions.add(newTransaction);
                 }
             }
@@ -275,7 +275,7 @@ public class RegisterMachine {
                 System.out.println("Customer Does not exist.");
             }else{
                 System.out.println("Costumer : " + costumer.getName() + " with ID: " + customerId);
-                addSale(null);
+                addSale(null, costumer);
             }
         }
     }
