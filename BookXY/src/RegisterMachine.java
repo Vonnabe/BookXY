@@ -79,7 +79,6 @@ public class RegisterMachine {
             System.out.print("Enter Item Barcode: ");
             Scanner sc = new Scanner(System.in);
             String itembarcode = sc.nextLine();
-            double itemTaxation;
             for (Items item : Inventory.items) {
                 if (item.getBarcode().equals(itembarcode)) {
                     System.out.print("Enter quantity: ");
@@ -89,21 +88,8 @@ public class RegisterMachine {
                         sc.close();
                         return;
                     }
-                    if (item.getTaxCategory().equalsIgnoreCase("a")) {
-                        itemTaxation = getaFpa();
-                    } else if (item.getTaxCategory().equalsIgnoreCase("b")) {
-                        itemTaxation = getbFpa();
-                    } else if (item.getTaxCategory().equalsIgnoreCase("c")) {
-                        itemTaxation = getcFpa();
-                    } else if (item.getTaxCategory().equalsIgnoreCase("d")) {
-                        itemTaxation = getdFpa();
-                    } else {
-                        System.out.println("---WARNING---");
-                        System.out.println("Item does not have a tax, setting to 0%.");
-                        sc.close();
-                        return;
-                    }
-                    double total = (item.getPrice() * itemTaxation) * quantity;
+                    taxItemsCategorySettings(0.0);
+                    double total = item.getPrice() * quantity;
                     total += count;
                     System.out.println("Total price: " + total);
                     // double finalbalance = RegisterMachine.getBalance() + total;
@@ -122,21 +108,7 @@ public class RegisterMachine {
                         openReceipt = false;
                     }
                     System.out.println("Your total is: " + total);
-                    System.out.println("Select Payment Method: 1.Cash / 2.EftPOS");
-                    boolean receiptPaymentMethod = true;
-                    while (receiptPaymentMethod) {
-                        int paymentMethod = sc.nextInt();
-                        if (paymentMethod == 2) {
-                            eftpos = RegisterMachine.getEftpos() + total;
-                            receiptPaymentMethod = false;
-                        } else if (paymentMethod == 1) {
-                            balance = RegisterMachine.getBalance() + total;
-                            receiptPaymentMethod = false;
-                        } else {
-                            System.out.println("Invalid Payment Method. Please select 1 for Cash or 2 for EftPOS.");
-                        }
-                    }
-
+                    paymentMethodSettings(total);
                     System.out.println("Total Balance: " + balance);
                     System.out.println("EftPOS Balance: " + eftpos);
                     Transaction newTransaction = new Transaction(item, null, quantity, total, false);
@@ -205,10 +177,8 @@ public class RegisterMachine {
             System.out.println(customer);
         }
 
-
     }
-                // ---WORK IN PROGRESS---//
-
+    // ---WORK IN PROGRESS---//
 
     public static void btbsale(Transaction t) {
         System.out.println("Sale");
@@ -259,9 +229,52 @@ public class RegisterMachine {
         System.out.println("Tax rates updated successfully!");
     }
 
-    
-        // ---WORK IN PROGRESS---//
-    
+    public static void taxItemsCategorySettings(double itemTaxation) {
+        for (Items item : Inventory.items) {
+            if (item.getTaxCategory().equalsIgnoreCase("a")) {
+                itemTaxation = getaFpa();
+                item.setPrice(item.getPrice() * itemTaxation);
+            } else if (item.getTaxCategory().equalsIgnoreCase("b")) {
+                itemTaxation = getbFpa();
+                item.setPrice(item.getPrice() * itemTaxation);
+            } else if (item.getTaxCategory().equalsIgnoreCase("c")) {
+                itemTaxation = getcFpa();
+                item.setPrice(item.getPrice() * itemTaxation);
+            } else if (item.getTaxCategory().equalsIgnoreCase("d")) {
+                itemTaxation = getdFpa();
+                item.setPrice(item.getPrice() * itemTaxation);
+            } else {
+                System.out.println("---WARNING---");
+                System.out.println("Item does not have a tax, setting to 0%.");
+                item.setPrice(item.getPrice());
+            }
+            
+        }
+    }
+
+    // ---WORK IN PROGRESS---//
+
+    public static double paymentMethodSettings(double total) {
+        System.out.println("Select Payment Method: 1.Cash / 2.EftPOS");
+        Scanner sc = new Scanner(System.in);
+        boolean receiptPaymentMethod = true;
+        while (receiptPaymentMethod) {
+            int paymentMethod = sc.nextInt();
+            if (paymentMethod == 2) {
+                eftpos = RegisterMachine.getEftpos() + total;
+                receiptPaymentMethod = false;
+                return total;
+            } else if (paymentMethod == 1) {
+                balance = RegisterMachine.getBalance() + total;
+                receiptPaymentMethod = false;
+                return total;
+            } else {
+                System.out.println("Invalid Payment Method. Please select 1 for Cash or 2 for EftPOS.");
+            }
+        }
+        return total;
+    }
+
     public static void listTransactions() {
         if (transactions.isEmpty()) {
             System.out.println("*No Transactions on record.*");
