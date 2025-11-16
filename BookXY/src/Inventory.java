@@ -59,7 +59,6 @@ public class Inventory {
             System.out.println("Invalid tax category. Please enter a, b, c, or d.");
             return;
         }
-
         Items newItem = new Items(itemname, year, price, quantity, barcode, branditem, taxCategory);
         items.add(newItem);
         System.out.println("Item added successfully.");
