@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class Transaction {
 
     private Items item;
-    private Costumer costumer;
+    private String costumer;
 
     private int quantity;
     private double totalprice;
     private boolean isPurchase;
 
-    public Transaction(Items item, Costumer customer, int quantity, double totalprice, boolean isPurchase) {
+    public Transaction(Items item, String costumer, int quantity, double totalprice, boolean isPurchase) {
         this.item = item;
         this.costumer = costumer;
         this.quantity = quantity;
@@ -43,11 +43,11 @@ public class Transaction {
         this.isPurchase = isPurchase;
     }
 
-    public Costumer getCostumer() {
+    public String getCostumer() {
         return costumer;
     }
 
-    public void setCostumer(Costumer costumer) {
+    public void setCostumer(String costumer) {
         this.costumer = costumer;
     }
 
