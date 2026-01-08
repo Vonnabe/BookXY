@@ -3,6 +3,9 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws Exception {
 
+        test test = new test();
+        test.solution("abcde","cde");
+
         Scanner input = new Scanner(System.in);
         RegisterMachine register = new RegisterMachine(input.nextDouble(), 0.0,0.0, 0.0, 0.0, 0.0);
         System.out.println(register.getBalance());
@@ -26,7 +29,7 @@ public class App {
         System.out.println("11. Transaction History");
         System.out.println("!-------------------------------!");
 
-
+//clean code branch started!
         int line= input.nextInt();
         
         switch (line) {

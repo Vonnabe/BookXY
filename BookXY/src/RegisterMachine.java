@@ -94,7 +94,6 @@ public class RegisterMachine {
                     total += count;
                     qcount += quantity;
                     System.out.println("Total price: " + total);
-                    // double finalbalance = RegisterMachine.getBalance() + total;
                     item.setQuantity(item.getQuantity() - quantity);
                     sc.nextLine();
                     System.out.println("Would you like to add another item to the sale? (Y/N)");
