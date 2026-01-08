@@ -9,7 +9,8 @@ public class Inventory {
 
     public static void addItems(Scanner sc) {
         System.out.println("Adding items...");
-        Items newItem = new Items(addItemName(), addItemYear(), addItemPrice(), addItemQuantity(), addItemBarcode(), addItemBrand(), inputTaxCategoryonItem());
+        Items newItem = new Items(addItemName(), addItemYear(), addItemPrice(), addItemQuantity(), addItemBarcode(),
+                addItemBrand(), inputTaxCategoryonItem());
         items.add(newItem);
         System.out.println("Item added successfully.");
     }
@@ -96,15 +97,9 @@ public class Inventory {
         return taxCategory;
     }
 
-    public static void deleteItems(Scanner sc) {
-        System.out.print("Enter the barcode of the item to delete: ");
-        sc.nextLine();
-        String barcodeToDelete = sc.nextLine();
-        if (barcodeToDelete.isEmpty()) {
-            System.out.println("Barcode cannot be empty.");
-            return;
-
-        }
+    public static void deleteItemsByBarcode() { // not tested yet
+        addItemBarcode();
+        String barcodeToDelete = addItemBarcode();
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getBarcode().equals(barcodeToDelete)) {
                 items.remove(i);
@@ -114,14 +109,9 @@ public class Inventory {
         }
     }
 
-    public static void findByBarcode(Scanner sc) {
-        System.out.print("Enter the barcode to search: ");
-        sc.nextLine();
-        String barcodeToFind = sc.nextLine();
-        if (barcodeToFind.isEmpty()) {
-            System.out.println("Barcode cannot be empty.");
-            return;
-        }
+    public static void findByBarcode() { // not tested yet
+        addItemBarcode();
+        String barcodeToFind = addItemBarcode();
         for (Items item : items) {
             if (item.getBarcode().equals(barcodeToFind)) {
                 System.out.println("Item found: " + item);

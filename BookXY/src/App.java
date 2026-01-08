@@ -3,8 +3,6 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws Exception {
 
-        test test = new test();
-        test.solution("abcde","cde");
 
         Scanner input = new Scanner(System.in);
         RegisterMachine register = new RegisterMachine(input.nextDouble(), 0.0,0.0, 0.0, 0.0, 0.0);
@@ -41,7 +39,7 @@ public class App {
                 System.out.println("Register Balance: " + RegisterMachine.getBalance());
                 break;
             case 3:
-                Inventory.findByBarcode(input);
+                Inventory.findByBarcode();
                 break;
             case 4:
                 RegisterMachine.addSale(null);
