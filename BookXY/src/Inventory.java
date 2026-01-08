@@ -9,59 +9,99 @@ public class Inventory {
 
     public static void addItems(Scanner sc) {
         System.out.println("Adding items...");
+        // addItemName();
+        // addItemYear();
+        // addItemPrice();
+        // addItemQuantity();
+        // sc.nextLine();
+        // addItemBarcode();
+        // addItemBrand();
+        // inputTaxCategoryonItem();
+        Items newItem = new Items(addItemName(), addItemYear(), addItemPrice(), addItemQuantity(), addItemBarcode(), addItemBrand(), inputTaxCategoryonItem());
+        items.add(newItem);
+        System.out.println("Item added successfully.");
+    }
+
+    static String addItemName() {
         System.out.print("Enter item name: ");
-        sc.nextLine();
+        Scanner sc = new Scanner(System.in);
         String itemname = sc.nextLine();
         if (itemname.isEmpty()) {
             System.out.println("Item name cannot be empty.");
-            return;
+            return null;
         }
+        return itemname;
+    }
+
+    static Integer addItemYear() {
         System.out.print("Enter item year: ");
+        Scanner sc = new Scanner(System.in);
         int year = sc.nextInt();
         if (year < 0) {
             System.out.println("Year cannot be negative.");
-            return;
+            return null;
         }
+        return year;
+    }
+
+    static Double addItemPrice() {
         System.out.print("Enter item price: ");
+        Scanner sc = new Scanner(System.in);
         double price = sc.nextDouble();
         if (price < 0) {
             System.out.println("Price cannot be negative.");
-            return;
+            return null;
         }
+        return price;
+    }
+
+    static Integer addItemQuantity() {
         System.out.print("Enter item quantity: ");
+        Scanner sc = new Scanner(System.in);
         int quantity = sc.nextInt();
         if (quantity < 0) {
             System.out.println("Quantity cannot be negative.");
-            return;
+            return null;
         }
-        sc.nextLine();
+        return quantity;
+    }
+
+    static String addItemBarcode() {
         System.out.print("Enter item barcode: ");
+        Scanner sc = new Scanner(System.in);
         String barcode = sc.nextLine();
         if (barcode.isEmpty()) {
             System.out.println("Barcode cannot be empty.");
-            return;
+            return null;
         }
+        return barcode;
+    }
+
+    static String addItemBrand() {
         System.out.print("Enter item brand: ");
+        Scanner sc = new Scanner(System.in);
         String branditem = sc.nextLine();
         if (branditem.isEmpty()) {
             System.out.println("Brand cannot be empty.");
-            return;
+            return null;
         }
+        return branditem;
+    }
 
+    static String inputTaxCategoryonItem() {
         System.out.print("Enter item tax category: (a, b, c, d)");
+        Scanner sc = new Scanner(System.in);
         String taxCategory = sc.nextLine();
         if (taxCategory.isEmpty()) {
             System.out.println("Tax category cannot be empty.");
-            return;
+            return null;
         }
         if (!taxCategory.equalsIgnoreCase("a") && !taxCategory.equalsIgnoreCase("b")
                 && !taxCategory.equalsIgnoreCase("c") && !taxCategory.equalsIgnoreCase("d")) {
             System.out.println("Invalid tax category. Please enter a, b, c, or d.");
-            return;
+            return null;
         }
-        Items newItem = new Items(itemname, year, price, quantity, barcode, branditem, taxCategory);
-        items.add(newItem);
-        System.out.println("Item added successfully.");
+        return taxCategory;
     }
 
     public static void deleteItems(Scanner sc) {
