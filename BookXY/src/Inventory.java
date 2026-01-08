@@ -9,14 +9,6 @@ public class Inventory {
 
     public static void addItems(Scanner sc) {
         System.out.println("Adding items...");
-        // addItemName();
-        // addItemYear();
-        // addItemPrice();
-        // addItemQuantity();
-        // sc.nextLine();
-        // addItemBarcode();
-        // addItemBrand();
-        // inputTaxCategoryonItem();
         Items newItem = new Items(addItemName(), addItemYear(), addItemPrice(), addItemQuantity(), addItemBarcode(), addItemBrand(), inputTaxCategoryonItem());
         items.add(newItem);
         System.out.println("Item added successfully.");
