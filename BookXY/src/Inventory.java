@@ -9,7 +9,7 @@ public class Inventory {
 
     public static void addItems(Scanner sc) {
         System.out.println("Adding items...");
-        Items newItem = new Items(addItemName(), addItemYear(), addItemPrice(), addItemQuantity(), addItemBarcode(),
+        Items newItem = new Items(addItemName(), addItemYear(), addItemPrice(), addItemQuantity(), inputItemBarcode(),
                 addItemBrand(), inputTaxCategoryonItem());
         items.add(newItem);
         System.out.println("Item added successfully.");
@@ -59,7 +59,7 @@ public class Inventory {
         return quantity;
     }
 
-    static String addItemBarcode() {
+    static String inputItemBarcode() {
         System.out.print("Enter item barcode: ");
         Scanner sc = new Scanner(System.in);
         String barcode = sc.nextLine();
@@ -97,9 +97,8 @@ public class Inventory {
         return taxCategory;
     }
 
-    public static void deleteItemsByBarcode() { // not tested yet
-        addItemBarcode();
-        String barcodeToDelete = addItemBarcode();
+    public static void deleteItemsByBarcode() { 
+        String barcodeToDelete = inputItemBarcode();
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getBarcode().equals(barcodeToDelete)) {
                 items.remove(i);
@@ -109,9 +108,8 @@ public class Inventory {
         }
     }
 
-    public static void findByBarcode() { // not tested yet
-        addItemBarcode();
-        String barcodeToFind = addItemBarcode();
+    public static void findByBarcode() { 
+        String barcodeToFind = inputItemBarcode();
         for (Items item : items) {
             if (item.getBarcode().equals(barcodeToFind)) {
                 System.out.println("Item found: " + item);

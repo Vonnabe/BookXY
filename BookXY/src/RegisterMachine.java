@@ -70,37 +70,43 @@ public class RegisterMachine {
         this.dFpa = dFpa;
     }
 
+    public static String inputItemBarcodeForaSale() {
+        String itemBarcode = Inventory.inputItemBarcode();
+        return itemBarcode;
+    }
+
+    public static Integer enteredQuantityOfItemForSaleViaBarcode() {
+        int quantityOfItemToBeSold = Inventory.addItemQuantity();
+        return quantityOfItemToBeSold;
+    }
+
+    public static void calculateTotalSalePriceWithTaxes(){
+
+    }
+
     public static void addSale(Transaction t) {
+        Scanner sc = new Scanner(System.in);
         boolean openReceipt = true;
         double count = 0;
-        double total=0;
-        int qcount=0;
+        double total = 0;
+        int qcount = 0;
         System.out.println("---Product Sale---");
         while (openReceipt) {
-
-            System.out.print("Enter Item Barcode: ");
-            Scanner sc = new Scanner(System.in);
-            String itembarcode = sc.nextLine();
+            //inputItemBarcodeForaSale();
             for (Items item : Inventory.items) {
-                if (item.getBarcode().equals(itembarcode)) {
-                    System.out.print("Enter quantity: ");
-                    int quantity = sc.nextInt();
-                    if (quantity > item.getQuantity()) {
-                        System.out.println("Not enough items in stock.");
-                        sc.close();
-                        return;
-                    }
-                    count = taxItemsCategorySettings(0.0, 0.0) * quantity;
+                if (item.getBarcode().equals(inputItemBarcodeForaSale())) {
+                    int quantityOfItem = enteredQuantityOfItemForSaleViaBarcode();
+                    count = taxItemsCategorySettings(0.0, 0.0) * quantityOfItem;
                     total += count;
-                    qcount += quantity;
+                    qcount += quantityOfItem;
                     System.out.println("Total price: " + total);
-                    item.setQuantity(item.getQuantity() - quantity);
+                    item.setQuantity(item.getQuantity() - quantityOfItem);
                     sc.nextLine();
                     System.out.println("Would you like to add another item to the sale? (Y/N)");
                     String closeReceiptcheck = sc.nextLine();
 
                     if (closeReceiptcheck.equalsIgnoreCase("y")) {
-                        count=0;
+                        count = 0;
                         Transaction newTransaction = new Transaction(item, null, qcount, total, false);
                         transactions.add(newTransaction);
                         openReceipt = true;
@@ -184,8 +190,8 @@ public class RegisterMachine {
     public static void btbsale(Transaction t) {
         boolean openReceipt = true;
         double count = 0;
-        double total =0;
-        int qcount=0;
+        double total = 0;
+        int qcount = 0;
         System.out.println(" ---B2B Sale--- ");
         while (openReceipt) {
             System.out.print("Enter Customer Password: ");
@@ -215,8 +221,9 @@ public class RegisterMachine {
                             String closeReceiptcheck = sc.nextLine();
 
                             if (closeReceiptcheck.equalsIgnoreCase("y")) {
-                                count=0;
-                                Transaction newTransaction = new Transaction(item, customer.getName(), qcount, total, false);
+                                count = 0;
+                                Transaction newTransaction = new Transaction(item, customer.getName(), qcount, total,
+                                        false);
                                 transactions.add(newTransaction);
                                 openReceipt = true;
                                 break;
@@ -227,7 +234,8 @@ public class RegisterMachine {
                             paymentMethodSettings(total);
                             System.out.println("Total Balance: " + balance);
                             System.out.println("EftPOS Balance: " + eftpos);
-                            Transaction newTransaction = new Transaction(item, customer.getName(), qcount, total, false);
+                            Transaction newTransaction = new Transaction(item, customer.getName(), qcount, total,
+                                    false);
                             transactions.add(newTransaction);
                             System.out.println("Transaction made: " + newTransaction);
                         }
@@ -272,7 +280,7 @@ public class RegisterMachine {
                 System.out.println("Item does not have a tax, setting to 0%.");
                 finalscore = item.getPrice();
             }
-            
+
         }
         return finalscore;
     }
