@@ -70,22 +70,6 @@ public class RegisterMachine {
         this.dFpa = dFpa;
     }
 
-    public static String inputItemBarcodeForaSale() {
-        String itemBarcode = Inventory.inputItemBarcode();
-        return itemBarcode;
-    }
-
-    public static Integer enteredQuantityOfItemForSaleViaBarcode() {
-        int quantityOfItemToBeSold = Inventory.addItemQuantity();
-        return quantityOfItemToBeSold;
-    }
-
-    public static Double calculateTotalSalePriceWithTaxes(double itemPriceBeforeTax) {
-        int quantityOfItem = enteredQuantityOfItemForSaleViaBarcode();
-        double itemPriceAfterTax = taxItemsCategorySettings(itemPriceBeforeTax) * quantityOfItem;
-        return itemPriceAfterTax;
-    }
-
     public static void makeOneOrMultipleSales() {
         Scanner sc = new Scanner(System.in);
         boolean openReceipt = true;
@@ -126,6 +110,22 @@ public class RegisterMachine {
             }
         }
         return;
+    }
+
+    public static String inputItemBarcodeForaSale() {
+        String itemBarcode = Inventory.inputItemBarcode();
+        return itemBarcode;
+    }
+
+    public static Integer enteredQuantityOfItemForSaleViaBarcode() {
+        int quantityOfItemToBeSold = Inventory.addItemQuantity();
+        return quantityOfItemToBeSold;
+    }
+
+    public static Double calculateTotalSalePriceWithTaxes(double itemPriceBeforeTax) {
+        int quantityOfItem = enteredQuantityOfItemForSaleViaBarcode();
+        double itemPriceAfterTax = taxItemsCategorySettings(itemPriceBeforeTax) * quantityOfItem;
+        return itemPriceAfterTax;
     }
 
     public static void addPurchase(Transaction t) {
@@ -200,12 +200,12 @@ public class RegisterMachine {
                     System.out.println("Customer Found: " + customer.getName());
                     makeOneOrMultipleSales();
                     openReceipt = false;
-                        }
-                    }
                 }
             }
         }
     }
+
+    }}
 
     public static void taxModificationSettings(Scanner sc, RegisterMachine register) {
         System.out.print("Enter Fpa A rate(%): ");
@@ -281,4 +281,3 @@ public class RegisterMachine {
         }
     }
 }
-
