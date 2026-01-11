@@ -205,8 +205,6 @@ public class RegisterMachine {
         }
     }
 
-    }}
-
     public static void taxModificationSettings(Scanner sc, RegisterMachine register) {
         System.out.print("Enter Fpa A rate(%): ");
         double newAFpa = sc.nextDouble();

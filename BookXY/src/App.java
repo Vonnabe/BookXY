@@ -42,7 +42,7 @@ public class App {
                 Inventory.findByBarcode();
                 break;
             case 4:
-                RegisterMachine.addSale();
+                RegisterMachine.makeOneOrMultipleSales();
                 break;
             case 5:
                 RegisterMachine.addPurchase(null);
