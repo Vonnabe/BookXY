@@ -70,38 +70,28 @@ public class RegisterMachine {
         this.dFpa = dFpa;
     }
 
-    public static void addSale(Transaction t) {
+    public static void makeOneOrMultipleSales() {
+        Scanner sc = new Scanner(System.in);
         boolean openReceipt = true;
         double count = 0;
-        double total=0;
-        int qcount=0;
+        double total = 0;
+        int qcount = 0;
         System.out.println("---Product Sale---");
         while (openReceipt) {
-
-            System.out.print("Enter Item Barcode: ");
-            Scanner sc = new Scanner(System.in);
-            String itembarcode = sc.nextLine();
             for (Items item : Inventory.items) {
-                if (item.getBarcode().equals(itembarcode)) {
-                    System.out.print("Enter quantity: ");
-                    int quantity = sc.nextInt();
-                    if (quantity > item.getQuantity()) {
-                        System.out.println("Not enough items in stock.");
-                        sc.close();
-                        return;
-                    }
-                    count = taxItemsCategorySettings(0.0, 0.0) * quantity;
+                if (item.getBarcode().equals(inputItemBarcodeForaSale())) {
+                    int quantityOfItem = enteredQuantityOfItemForSaleViaBarcode();
+                    count = taxItemsCategorySettings(item.getPrice()) * quantityOfItem;
                     total += count;
-                    qcount += quantity;
+                    qcount += quantityOfItem;
                     System.out.println("Total price: " + total);
-                    // double finalbalance = RegisterMachine.getBalance() + total;
-                    item.setQuantity(item.getQuantity() - quantity);
+                    item.setQuantity(item.getQuantity() - quantityOfItem);
                     sc.nextLine();
                     System.out.println("Would you like to add another item to the sale? (Y/N)");
                     String closeReceiptcheck = sc.nextLine();
 
                     if (closeReceiptcheck.equalsIgnoreCase("y")) {
-                        count=0;
+                        count = 0;
                         Transaction newTransaction = new Transaction(item, null, qcount, total, false);
                         transactions.add(newTransaction);
                         openReceipt = true;
@@ -120,6 +110,22 @@ public class RegisterMachine {
             }
         }
         return;
+    }
+
+    public static String inputItemBarcodeForaSale() {
+        String itemBarcode = Inventory.inputItemBarcode();
+        return itemBarcode;
+    }
+
+    public static Integer enteredQuantityOfItemForSaleViaBarcode() {
+        int quantityOfItemToBeSold = Inventory.addItemQuantity();
+        return quantityOfItemToBeSold;
+    }
+
+    public static Double calculateTotalSalePriceWithTaxes(double itemPriceBeforeTax) {
+        int quantityOfItem = enteredQuantityOfItemForSaleViaBarcode();
+        double itemPriceAfterTax = taxItemsCategorySettings(itemPriceBeforeTax) * quantityOfItem;
+        return itemPriceAfterTax;
     }
 
     public static void addPurchase(Transaction t) {
@@ -184,9 +190,6 @@ public class RegisterMachine {
 
     public static void btbsale(Transaction t) {
         boolean openReceipt = true;
-        double count = 0;
-        double total =0;
-        int qcount=0;
         System.out.println(" ---B2B Sale--- ");
         while (openReceipt) {
             System.out.print("Enter Customer Password: ");
@@ -195,44 +198,8 @@ public class RegisterMachine {
             for (Costumer customer : Costumer.costumers) {
                 if (customer.getPassword().equals(password)) {
                     System.out.println("Customer Found: " + customer.getName());
-                    System.out.print("Enter Item Barcode: ");
-                    String itembarcode = sc.nextLine();
-                    for (Items item : Inventory.items) {
-                        if (item.getBarcode().equals(itembarcode)) {
-                            System.out.print("Enter quantity: ");
-                            int quantity = sc.nextInt();
-                            if (quantity > item.getQuantity()) {
-                                System.out.println("Not enough items in stock.");
-                                return;
-                            }
-                            count = taxItemsCategorySettings(0.0, 0.0) * quantity;
-                            total += count;
-                            qcount += quantity;
-                            System.out.println("Total price: " + total);
-                            // double finalbalance = RegisterMachine.getBalance() + total;
-                            item.setQuantity(item.getQuantity() - quantity);
-                            sc.nextLine();
-                            System.out.println("Would you like to add another item to the sale? (Y/N)");
-                            String closeReceiptcheck = sc.nextLine();
-
-                            if (closeReceiptcheck.equalsIgnoreCase("y")) {
-                                count=0;
-                                Transaction newTransaction = new Transaction(item, customer.getName(), qcount, total, false);
-                                transactions.add(newTransaction);
-                                openReceipt = true;
-                                break;
-                            } else {
-                                openReceipt = false;
-                            }
-                            System.out.println("Your total is: " + total);
-                            paymentMethodSettings(total);
-                            System.out.println("Total Balance: " + balance);
-                            System.out.println("EftPOS Balance: " + eftpos);
-                            Transaction newTransaction = new Transaction(item, customer.getName(), qcount, total, false);
-                            transactions.add(newTransaction);
-                            System.out.println("Transaction made: " + newTransaction);
-                        }
-                    }
+                    makeOneOrMultipleSales();
+                    openReceipt = false;
                 }
             }
         }
@@ -254,7 +221,8 @@ public class RegisterMachine {
         System.out.println("Tax rates updated successfully!");
     }
 
-    public static double taxItemsCategorySettings(double itemTaxation, double finalscore) {
+    public static double taxItemsCategorySettings(double finalscore) {
+        double itemTaxation;
         for (Items item : Inventory.items) {
             if (item.getTaxCategory().equalsIgnoreCase("a")) {
                 itemTaxation = getaFpa();
@@ -273,7 +241,7 @@ public class RegisterMachine {
                 System.out.println("Item does not have a tax, setting to 0%.");
                 finalscore = item.getPrice();
             }
-            
+
         }
         return finalscore;
     }
@@ -310,5 +278,4 @@ public class RegisterMachine {
             System.out.println(transaction);
         }
     }
-
 }

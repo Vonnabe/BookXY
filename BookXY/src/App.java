@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws Exception {
 
+
         Scanner input = new Scanner(System.in);
         RegisterMachine register = new RegisterMachine(input.nextDouble(), 0.0,0.0, 0.0, 0.0, 0.0);
         System.out.println(register.getBalance());
@@ -26,7 +27,7 @@ public class App {
         System.out.println("11. Transaction History");
         System.out.println("!-------------------------------!");
 
-
+//clean code branch started!
         int line= input.nextInt();
         
         switch (line) {
@@ -38,10 +39,10 @@ public class App {
                 System.out.println("Register Balance: " + RegisterMachine.getBalance());
                 break;
             case 3:
-                Inventory.findByBarcode(input);
+                Inventory.findByBarcode();
                 break;
             case 4:
-                RegisterMachine.addSale(null);
+                RegisterMachine.makeOneOrMultipleSales();
                 break;
             case 5:
                 RegisterMachine.addPurchase(null);
