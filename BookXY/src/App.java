@@ -27,7 +27,7 @@ public class App {
         System.out.println("11. Transaction History");
         System.out.println("!-------------------------------!");
 
-//clean code branch started!
+
         int line= input.nextInt();
         
         switch (line) {
