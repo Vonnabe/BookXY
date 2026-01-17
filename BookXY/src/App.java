@@ -5,7 +5,7 @@ public class App {
 
 
         Scanner input = new Scanner(System.in);
-        RegisterMachine register = new RegisterMachine(input.nextDouble(), 0.0,0.0, 0.0, 0.0, 0.0);
+        RegisterMachine register = new RegisterMachine(1000.0, 0.0,1.03, 1.05, 1.17, 1.24);
         System.out.println(register.getBalance());
 
         while (true){ 
@@ -26,7 +26,6 @@ public class App {
         System.out.println("10. Settings");
         System.out.println("11. Transaction History");
         System.out.println("!-------------------------------!");
-
 
         int line= input.nextInt();
         
