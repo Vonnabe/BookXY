@@ -7,7 +7,7 @@ public class Inventory {
     static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     static ArrayList<RegisterMachine> registerMachines = new ArrayList<RegisterMachine>();
 
-    public static void addItems(Scanner sc) {
+    public static void addItems() {
         System.out.println("Adding items...");
         Items newItem = new Items(addItemName(), addItemYear(), addItemPrice(), addItemQuantity(), inputItemBarcode(),
                 addItemBrand(), inputTaxCategoryonItem());
@@ -97,7 +97,7 @@ public class Inventory {
         return taxCategory;
     }
 
-    public static void deleteItemsByBarcode() { 
+    public static void deleteItemsByBarcode() {
         String barcodeToDelete = inputItemBarcode();
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getBarcode().equals(barcodeToDelete)) {
@@ -108,7 +108,7 @@ public class Inventory {
         }
     }
 
-    public static void findByBarcode() { 
+    public static void findByBarcode() {
         String barcodeToFind = inputItemBarcode();
         for (Items item : items) {
             if (item.getBarcode().equals(barcodeToFind)) {

@@ -75,26 +75,26 @@ public class RegisterMachine {
         boolean openReceipt = true;
         double count = 0;
         double total = 0;
-        int qcount = 0;
+        int itemQuantityCount = 0;
         System.out.println("---Product Sale---");
         while (openReceipt) {
+            String itemBarcode = inputItemBarcodeForaSale();
             for (Items item : Inventory.items) {
-                if (item.getBarcode().equals(inputItemBarcodeForaSale())) {
-                    int quantityOfItem = enteredQuantityOfItemForSaleViaBarcode();
-                    count = taxItemsCategorySettings(item.getPrice()) * quantityOfItem;
+                if (item.getBarcode().equals(itemBarcode)) {
+                    System.out.println(item);
+                    System.out.println(item.getItemname() + " selected.");
+                    System.out.println(item.getPrice() + " selected too.");
+                    itemQuantityCount = enteredQuantityOfItemForSaleViaBarcode();
+                    count = taxItemsCategorySettings(itemBarcode) * itemQuantityCount;
+                    System.out.println("total before: " + total);
                     total += count;
-                    qcount += quantityOfItem;
+                    System.out.println("total afterrr: " + total);
                     System.out.println("Total price: " + total);
-                    item.setQuantity(item.getQuantity() - quantityOfItem);
-                    sc.nextLine();
+                    item.setQuantity(item.getQuantity() - itemQuantityCount);
                     System.out.println("Would you like to add another item to the sale? (Y/N)");
                     String closeReceiptcheck = sc.nextLine();
-
                     if (closeReceiptcheck.equalsIgnoreCase("y")) {
                         count = 0;
-                        Transaction newTransaction = new Transaction(item, null, qcount, total, false);
-                        transactions.add(newTransaction);
-                        openReceipt = true;
                         break;
                     } else {
                         openReceipt = false;
@@ -103,7 +103,7 @@ public class RegisterMachine {
                     paymentMethodSettings(total);
                     System.out.println("Total Balance: " + balance);
                     System.out.println("EftPOS Balance: " + eftpos);
-                    Transaction newTransaction = new Transaction(item, null, qcount, total, false);
+                    Transaction newTransaction = new Transaction(item, null, itemQuantityCount, total, false);
                     transactions.add(newTransaction);
                     System.out.println("Transaction made: " + newTransaction);
                 }
@@ -122,12 +122,6 @@ public class RegisterMachine {
         return quantityOfItemToBeSold;
     }
 
-    public static Double calculateTotalSalePriceWithTaxes(double itemPriceBeforeTax) {
-        int quantityOfItem = enteredQuantityOfItemForSaleViaBarcode();
-        double itemPriceAfterTax = taxItemsCategorySettings(itemPriceBeforeTax) * quantityOfItem;
-        return itemPriceAfterTax;
-    }
-
     public static void addPurchase(Transaction t) {
         System.out.println("Purchase");
         System.out.print("Enter item name: ");
@@ -138,7 +132,7 @@ public class RegisterMachine {
                 System.out.println("Item not found in inventory, Would you Like to Add new Item? (Y/N)?");
                 String response = sc.nextLine();
                 if (response.equalsIgnoreCase("Y")) {
-                    Inventory.addItems(sc);
+                    Inventory.addItems();
                     return;
                 } else {
                     return;
@@ -221,27 +215,29 @@ public class RegisterMachine {
         System.out.println("Tax rates updated successfully!");
     }
 
-    public static double taxItemsCategorySettings(double finalscore) {
-        double itemTaxation;
+    public static double taxItemsCategorySettings(String barcodeOfITemToBeTaxed) {
+        double itemTaxation = 0.0;
+        double finalscore = 0.0;
         for (Items item : Inventory.items) {
-            if (item.getTaxCategory().equalsIgnoreCase("a")) {
-                itemTaxation = getaFpa();
-                finalscore = item.getPrice() * itemTaxation;
-            } else if (item.getTaxCategory().equalsIgnoreCase("b")) {
-                itemTaxation = getbFpa();
-                finalscore = item.getPrice() * itemTaxation;
-            } else if (item.getTaxCategory().equalsIgnoreCase("c")) {
-                itemTaxation = getcFpa();
-                finalscore = item.getPrice() * itemTaxation;
-            } else if (item.getTaxCategory().equalsIgnoreCase("d")) {
-                itemTaxation = getdFpa();
-                finalscore = item.getPrice() * itemTaxation;
-            } else {
-                System.out.println("---WARNING---");
-                System.out.println("Item does not have a tax, setting to 0%.");
-                finalscore = item.getPrice();
+            if (barcodeOfITemToBeTaxed.equals(item.getBarcode())) {
+                if (item.getTaxCategory().equalsIgnoreCase("a")) {
+                    itemTaxation = getaFpa();
+                    finalscore = item.getPrice() * itemTaxation;
+                } else if (item.getTaxCategory().equalsIgnoreCase("b")) {
+                    itemTaxation = getbFpa();
+                    finalscore = item.getPrice() * itemTaxation;
+                } else if (item.getTaxCategory().equalsIgnoreCase("c")) {
+                    itemTaxation = getcFpa();
+                    finalscore = item.getPrice() * itemTaxation;
+                } else if (item.getTaxCategory().equalsIgnoreCase("d")) {
+                    itemTaxation = getdFpa();
+                    finalscore = item.getPrice() * itemTaxation;
+                } else {
+                    System.out.println("---WARNING---");
+                    System.out.println("Item does not have a tax, setting to 0%.");
+                    finalscore = item.getPrice();
+                }
             }
-
         }
         return finalscore;
     }

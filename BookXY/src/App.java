@@ -32,7 +32,7 @@ public class App {
         
         switch (line) {
             case 1:
-                Inventory.addItems(input);
+                Inventory.addItems();
                 break;
             case 2:
                 Inventory.listItems();
