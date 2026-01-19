@@ -81,9 +81,6 @@ public class RegisterMachine {
             String itemBarcode = inputItemBarcodeForaSale();
             for (Items item : Inventory.items) {
                 if (item.getBarcode().equals(itemBarcode)) {
-                    System.out.println(item);
-                    System.out.println(item.getItemname() + " selected.");
-                    System.out.println(item.getPrice() + " selected too.");
                     itemQuantityCount = enteredQuantityOfItemForSaleViaBarcode();
                     count = taxItemsCategorySettings(itemBarcode) * itemQuantityCount;
                     System.out.println("total before: " + total);
@@ -122,7 +119,7 @@ public class RegisterMachine {
         return quantityOfItemToBeSold;
     }
 
-    public static void addPurchase(Transaction t) {
+    public static void addPurchase() {
         System.out.println("Purchase");
         System.out.print("Enter item name: ");
         Scanner sc = new Scanner(System.in);
@@ -150,7 +147,7 @@ public class RegisterMachine {
         }
     }
 
-    public static void addCustomer(Costumer c) {
+    public static void addCustomer() {
         System.out.println("Add Costumer Card");
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter Name: ");
@@ -182,7 +179,7 @@ public class RegisterMachine {
     }
     // ---WORK IN PROGRESS---//
 
-    public static void btbsale(Transaction t) {
+    public static void btbsale() {
         boolean openReceipt = true;
         System.out.println(" ---B2B Sale--- ");
         while (openReceipt) {
@@ -263,7 +260,6 @@ public class RegisterMachine {
         return total;
     }
 
-    // ---WORK IN PROGRESS---//
     public static void listTransactions() {
         if (transactions.isEmpty()) {
             System.out.println("*No Transactions on record.*");

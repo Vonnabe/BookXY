@@ -2,14 +2,15 @@
 public class Transaction {
 
     private Items item;
-    private String costumer;
 
+    private String costumer;
     private int quantity;
     private double totalprice;
     private boolean isPurchase;
 
-    public Transaction(Items item, String costumer, int quantity, double totalprice, boolean isPurchase) {
-        this.item = item;
+    public Transaction(Items item, String costumer, int quantity, double totalprice,
+            boolean isPurchase) {
+                this.item = item;
         this.costumer = costumer;
         this.quantity = quantity;
         this.totalprice = totalprice;

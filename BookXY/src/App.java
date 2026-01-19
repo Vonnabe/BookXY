@@ -44,20 +44,20 @@ public class App {
                 RegisterMachine.makeOneOrMultipleSales();
                 break;
             case 5:
-                RegisterMachine.addPurchase(null);
+                RegisterMachine.addPurchase();
                 break;
             case 6:
                 System.out.println("Exiting the application. Goodbye!");
                 System.exit(0);
                 break;
             case 7:
-                RegisterMachine.addCustomer(null);
+                RegisterMachine.addCustomer();
                 break;
             case 8:
                 RegisterMachine.listCustomers();
                 break;
             case 9:
-                RegisterMachine.btbsale(null);
+                RegisterMachine.btbsale();
                 break;
             case 10:
                 System.out.println("---SETTINGS---");
