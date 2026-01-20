@@ -100,49 +100,18 @@ public class RegisterMachine {
                     paymentMethodSettings(total);
                     System.out.println("Total Balance: " + balance);
                     System.out.println("EftPOS Balance: " + eftpos);
-                    Transaction newTransaction = new Transaction(item.getItemname(), null, itemQuantityCount, total,
-                            false);
-                    transactions.add(newTransaction);
-                    System.out.println("Transaction made: " + newTransaction);
+                    creatingTheInputForTransactionHistory(item.getItemname(), null, itemQuantityCount, total);
                 }
             }
         }
         return;
     }
 
-    public static void creatingTheInputForTransactionHistory(){
-
-    }
-
-    public static void calculateingSaleInProgress(Items item) { //Trying to Fix the newTransaction issue of being able to work on b2b sales
-        double count = 0;
-        double total = 0;
-        int itemQuantityCount = 0;
-        String itemBarcode = inputItemBarcodeForaSale();
-            if (item.getBarcode().equals(itemBarcode)) {
-                itemQuantityCount = enteredQuantityOfItemForSaleViaBarcode();
-                count = taxItemsCategorySettings(itemBarcode) * itemQuantityCount;
-                System.out.println("total before: " + total);
-                total += count;
-                System.out.println("total afterrr: " + total);
-                System.out.println("Total price: " + total);
-                item.setQuantity(item.getQuantity() - itemQuantityCount);
-                System.out.println("Would you like to add another item to the sale? (Y/N)");
-                String closeReceiptcheck = sc.nextLine();
-                if (closeReceiptcheck.equalsIgnoreCase("y")) {
-                    count = 0;
-                    break;
-                } else {
-                    openReceipt = false;
-                }
-                System.out.println("Your total is: " + total);
-                paymentMethodSettings(total);
-                System.out.println("Total Balance: " + balance);
-                System.out.println("EftPOS Balance: " + eftpos);
-                Transaction newTransaction = new Transaction(item.getItemname(), null, itemQuantityCount, total, false);
-                transactions.add(newTransaction);
-                System.out.println("Transaction made: " + newTransaction);
-            }
+    public static void creatingTheInputForTransactionHistory(String itemName, String costumer, int quantitySold,
+            double totalPrice) {
+        Transaction newTransaction = new Transaction(itemName, costumer, quantitySold, totalPrice, false);
+        transactions.add(newTransaction);
+        System.out.println("Transaction made: " + newTransaction);
     }
 
     public static String inputItemBarcodeForaSale() {
@@ -217,16 +186,46 @@ public class RegisterMachine {
 
     public static void btbsale() {
         boolean openReceipt = true;
+        Scanner sc = new Scanner(System.in);
+        double count = 0;
+        double total = 0;
+        int itemQuantityCount = 0;
         System.out.println(" ---B2B Sale--- ");
         while (openReceipt) {
             System.out.print("Enter Customer Password: ");
-            Scanner sc = new Scanner(System.in);
             String password = sc.nextLine();
             for (Costumer customer : Costumer.costumers) {
                 if (customer.getPassword().equals(password)) {
                     System.out.println("Customer Found: " + customer.getName());
-                    makeOneOrMultipleSales();
-                    openReceipt = false;
+                    System.out.println("---Product Sale---");
+                    while (openReceipt) {
+                        String itemBarcode = inputItemBarcodeForaSale();
+                        for (Items item : Inventory.items) {
+                            if (item.getBarcode().equals(itemBarcode)) {
+                                itemQuantityCount = enteredQuantityOfItemForSaleViaBarcode();
+                                count = taxItemsCategorySettings(itemBarcode) * itemQuantityCount;
+                                System.out.println("total before: " + total);
+                                total += count;
+                                System.out.println("total afterrr: " + total);
+                                System.out.println("Total price: " + total);
+                                item.setQuantity(item.getQuantity() - itemQuantityCount);
+                                System.out.println("Would you like to add another item to the sale? (Y/N)");
+                                String closeReceiptcheck = sc.nextLine();
+                                if (closeReceiptcheck.equalsIgnoreCase("y")) {
+                                    count = 0;
+                                    break;
+                                } else {
+                                    openReceipt = false;
+                                }
+                                System.out.println("Your total is: " + total);
+                                paymentMethodSettings(total);
+                                System.out.println("Total Balance: " + balance);
+                                System.out.println("EftPOS Balance: " + eftpos);
+                                creatingTheInputForTransactionHistory(item.getItemname(), customer.getName(), itemQuantityCount, total);
+                            }
+                        }
+                    }
+                    
                 }
             }
         }
