@@ -5,7 +5,7 @@ public class App {
 
 
         Scanner input = new Scanner(System.in);
-        RegisterMachine register = new RegisterMachine(input.nextDouble(), 0.0,0.0, 0.0, 0.0, 0.0);
+        RegisterMachine register = new RegisterMachine(1000.0, 0.0,1.03, 1.05, 1.17, 1.24);
         System.out.println(register.getBalance());
 
         while (true){ 
@@ -27,12 +27,11 @@ public class App {
         System.out.println("11. Transaction History");
         System.out.println("!-------------------------------!");
 
-
         int line= input.nextInt();
         
         switch (line) {
             case 1:
-                Inventory.addItems(input);
+                Inventory.addItems();
                 break;
             case 2:
                 Inventory.listItems();
@@ -45,20 +44,20 @@ public class App {
                 RegisterMachine.makeOneOrMultipleSales();
                 break;
             case 5:
-                RegisterMachine.addPurchase(null);
+                RegisterMachine.addPurchase();
                 break;
             case 6:
                 System.out.println("Exiting the application. Goodbye!");
                 System.exit(0);
                 break;
             case 7:
-                RegisterMachine.addCustomer(null);
+                RegisterMachine.addCustomer();
                 break;
             case 8:
                 RegisterMachine.listCustomers();
                 break;
             case 9:
-                RegisterMachine.btbsale(null);
+                RegisterMachine.btbsale();
                 break;
             case 10:
                 System.out.println("---SETTINGS---");

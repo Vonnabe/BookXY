@@ -75,26 +75,23 @@ public class RegisterMachine {
         boolean openReceipt = true;
         double count = 0;
         double total = 0;
-        int qcount = 0;
+        int itemQuantityCount = 0;
         System.out.println("---Product Sale---");
         while (openReceipt) {
+            String itemBarcode = inputItemBarcodeForaSale();
             for (Items item : Inventory.items) {
-                if (item.getBarcode().equals(inputItemBarcodeForaSale())) {
-                    int quantityOfItem = enteredQuantityOfItemForSaleViaBarcode();
-                    count = taxItemsCategorySettings(item.getPrice()) * quantityOfItem;
+                if (item.getBarcode().equals(itemBarcode)) {
+                    itemQuantityCount = enteredQuantityOfItemForSaleViaBarcode();
+                    count = taxItemsCategorySettings(itemBarcode) * itemQuantityCount;
+                    System.out.println("total before: " + total);
                     total += count;
-                    qcount += quantityOfItem;
+                    System.out.println("total afterrr: " + total);
                     System.out.println("Total price: " + total);
-                    item.setQuantity(item.getQuantity() - quantityOfItem);
-                    sc.nextLine();
+                    item.setQuantity(item.getQuantity() - itemQuantityCount);
                     System.out.println("Would you like to add another item to the sale? (Y/N)");
                     String closeReceiptcheck = sc.nextLine();
-
                     if (closeReceiptcheck.equalsIgnoreCase("y")) {
                         count = 0;
-                        Transaction newTransaction = new Transaction(item, null, qcount, total, false);
-                        transactions.add(newTransaction);
-                        openReceipt = true;
                         break;
                     } else {
                         openReceipt = false;
@@ -103,13 +100,18 @@ public class RegisterMachine {
                     paymentMethodSettings(total);
                     System.out.println("Total Balance: " + balance);
                     System.out.println("EftPOS Balance: " + eftpos);
-                    Transaction newTransaction = new Transaction(item, null, qcount, total, false);
-                    transactions.add(newTransaction);
-                    System.out.println("Transaction made: " + newTransaction);
+                    creatingTheInputForTransactionHistory(item.getItemname(), null, itemQuantityCount, total);
                 }
             }
         }
         return;
+    }
+
+    public static void creatingTheInputForTransactionHistory(String itemName, String costumer, int quantitySold,
+            double totalPrice) {
+        Transaction newTransaction = new Transaction(itemName, costumer, quantitySold, totalPrice, false);
+        transactions.add(newTransaction);
+        System.out.println("Transaction made: " + newTransaction);
     }
 
     public static String inputItemBarcodeForaSale() {
@@ -122,13 +124,7 @@ public class RegisterMachine {
         return quantityOfItemToBeSold;
     }
 
-    public static Double calculateTotalSalePriceWithTaxes(double itemPriceBeforeTax) {
-        int quantityOfItem = enteredQuantityOfItemForSaleViaBarcode();
-        double itemPriceAfterTax = taxItemsCategorySettings(itemPriceBeforeTax) * quantityOfItem;
-        return itemPriceAfterTax;
-    }
-
-    public static void addPurchase(Transaction t) {
+    public static void addPurchase() {
         System.out.println("Purchase");
         System.out.print("Enter item name: ");
         Scanner sc = new Scanner(System.in);
@@ -138,7 +134,7 @@ public class RegisterMachine {
                 System.out.println("Item not found in inventory, Would you Like to Add new Item? (Y/N)?");
                 String response = sc.nextLine();
                 if (response.equalsIgnoreCase("Y")) {
-                    Inventory.addItems(sc);
+                    Inventory.addItems();
                     return;
                 } else {
                     return;
@@ -149,14 +145,14 @@ public class RegisterMachine {
                 double total = RegisterMachine.getBalance() - (item.getPrice() * quantity);
                 System.out.println("Total Balance: " + total);
                 item.setQuantity(item.getQuantity() + quantity);
-                Transaction newTransaction = new Transaction(item, null, quantity, total, false);
+                Transaction newTransaction = new Transaction(item.getItemname(), null, quantity, total, false);
                 transactions.add(newTransaction);
                 return;
             }
         }
     }
 
-    public static void addCustomer(Costumer c) {
+    public static void addCustomer() {
         System.out.println("Add Costumer Card");
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter Name: ");
@@ -186,20 +182,49 @@ public class RegisterMachine {
         }
 
     }
-    // ---WORK IN PROGRESS---//
 
-    public static void btbsale(Transaction t) {
+    public static void btbsale() {
         boolean openReceipt = true;
+        Scanner sc = new Scanner(System.in);
+        double count = 0;
+        double total = 0;
+        int itemQuantityCount = 0;
         System.out.println(" ---B2B Sale--- ");
         while (openReceipt) {
             System.out.print("Enter Customer Password: ");
-            Scanner sc = new Scanner(System.in);
             String password = sc.nextLine();
             for (Costumer customer : Costumer.costumers) {
                 if (customer.getPassword().equals(password)) {
                     System.out.println("Customer Found: " + customer.getName());
-                    makeOneOrMultipleSales();
-                    openReceipt = false;
+                    System.out.println("---Product Sale---");
+                    while (openReceipt) {
+                        String itemBarcode = inputItemBarcodeForaSale();
+                        for (Items item : Inventory.items) {
+                            if (item.getBarcode().equals(itemBarcode)) {
+                                itemQuantityCount = enteredQuantityOfItemForSaleViaBarcode();
+                                count = taxItemsCategorySettings(itemBarcode) * itemQuantityCount;
+                                System.out.println("total before: " + total);
+                                total += count;
+                                System.out.println("total afterrr: " + total);
+                                System.out.println("Total price: " + total);
+                                item.setQuantity(item.getQuantity() - itemQuantityCount);
+                                System.out.println("Would you like to add another item to the sale? (Y/N)");
+                                String closeReceiptcheck = sc.nextLine();
+                                if (closeReceiptcheck.equalsIgnoreCase("y")) {
+                                    count = 0;
+                                    break;
+                                } else {
+                                    openReceipt = false;
+                                }
+                                System.out.println("Your total is: " + total);
+                                paymentMethodSettings(total);
+                                System.out.println("Total Balance: " + balance);
+                                System.out.println("EftPOS Balance: " + eftpos);
+                                creatingTheInputForTransactionHistory(item.getItemname(), customer.getName(), itemQuantityCount, total);
+                            }
+                        }
+                    }
+                    
                 }
             }
         }
@@ -221,27 +246,29 @@ public class RegisterMachine {
         System.out.println("Tax rates updated successfully!");
     }
 
-    public static double taxItemsCategorySettings(double finalscore) {
-        double itemTaxation;
+    public static double taxItemsCategorySettings(String barcodeOfITemToBeTaxed) {
+        double itemTaxation = 0.0;
+        double finalscore = 0.0;
         for (Items item : Inventory.items) {
-            if (item.getTaxCategory().equalsIgnoreCase("a")) {
-                itemTaxation = getaFpa();
-                finalscore = item.getPrice() * itemTaxation;
-            } else if (item.getTaxCategory().equalsIgnoreCase("b")) {
-                itemTaxation = getbFpa();
-                finalscore = item.getPrice() * itemTaxation;
-            } else if (item.getTaxCategory().equalsIgnoreCase("c")) {
-                itemTaxation = getcFpa();
-                finalscore = item.getPrice() * itemTaxation;
-            } else if (item.getTaxCategory().equalsIgnoreCase("d")) {
-                itemTaxation = getdFpa();
-                finalscore = item.getPrice() * itemTaxation;
-            } else {
-                System.out.println("---WARNING---");
-                System.out.println("Item does not have a tax, setting to 0%.");
-                finalscore = item.getPrice();
+            if (barcodeOfITemToBeTaxed.equals(item.getBarcode())) {
+                if (item.getTaxCategory().equalsIgnoreCase("a")) {
+                    itemTaxation = getaFpa();
+                    finalscore = item.getPrice() * itemTaxation;
+                } else if (item.getTaxCategory().equalsIgnoreCase("b")) {
+                    itemTaxation = getbFpa();
+                    finalscore = item.getPrice() * itemTaxation;
+                } else if (item.getTaxCategory().equalsIgnoreCase("c")) {
+                    itemTaxation = getcFpa();
+                    finalscore = item.getPrice() * itemTaxation;
+                } else if (item.getTaxCategory().equalsIgnoreCase("d")) {
+                    itemTaxation = getdFpa();
+                    finalscore = item.getPrice() * itemTaxation;
+                } else {
+                    System.out.println("---WARNING---");
+                    System.out.println("Item does not have a tax, setting to 0%.");
+                    finalscore = item.getPrice();
+                }
             }
-
         }
         return finalscore;
     }
@@ -267,7 +294,6 @@ public class RegisterMachine {
         return total;
     }
 
-    // ---WORK IN PROGRESS---//
     public static void listTransactions() {
         if (transactions.isEmpty()) {
             System.out.println("*No Transactions on record.*");
