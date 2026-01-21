@@ -182,7 +182,6 @@ public class RegisterMachine {
         }
 
     }
-    // ---WORK IN PROGRESS---//
 
     public static void btbsale() {
         boolean openReceipt = true;
